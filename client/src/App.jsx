@@ -5,6 +5,7 @@ import Login from './components/Login'
 import DisplayResults from './components/DisplayResults'
 import Favorites from './components/Favorites'
 import Schedule from './components/Schedule'
+import PrivacyPolicy from './components/PrivacyPolicy'
 import './index.css'
 import Recipe from './components/Recipe'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
@@ -72,6 +73,7 @@ function App() {
         <Route path='/favorites' element={<Favorites user={user} favoritesList={favoritesList} setFavoritesList={setFavoritesList} isAuthenticated={isAuthenticated} setRecipe={setRecipe} />} />
         <Route path='/schedule' element={<Schedule />} />
         <Route path='/recipe' element={<Recipe recipe={recipe} isAuthenticated={isAuthenticated} user={user} favoritesList={favoritesList} setFavoritesList={setFavoritesList} />} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy />} />
       </Routes>
     </Router>
   )
