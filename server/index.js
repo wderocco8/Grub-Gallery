@@ -26,6 +26,5 @@ app.use("/users", userRoute)
 app.use("/search", spoonacularRoute)
 
 
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`);
-// })
+// vercel : app.listen(...) is not necessary, but must export the app for serverless usage
+module.exports = app
