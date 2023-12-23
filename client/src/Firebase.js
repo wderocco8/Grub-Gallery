@@ -9,8 +9,8 @@ const measurementId = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 // Obtain gapi scores from .env
 const API_KEY = import.meta.env.VITE_GAPI_KEY
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID
-const scope1 = import.meta.env.VITE_SCOPE1
-const scope2 = import.meta.env.VITE_SCOPE2
+const scope = import.meta.env.VITE_SCOPE
+
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
@@ -48,8 +48,8 @@ export const signInWithGoogle = () => {
         console.log("starting sign in...")
 
         const provider = new GoogleAuthProvider();
-        provider.addScope(scope1);
-        provider.addScope(scope2);
+        provider.addScope(scope);
+        // provider.addScope(scope2);
         const result = await signInWithPopup(auth, provider);
   
         const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -61,7 +61,7 @@ export const signInWithGoogle = () => {
             apiKey: API_KEY,
             clientId: CLIENT_ID,
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-            scope: scope1 + " " + scope2,
+            scope: scope,
           });
   
           
