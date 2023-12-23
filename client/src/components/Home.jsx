@@ -6,6 +6,7 @@ import food5 from "../assets/food5.jpg"
 import food6 from "../assets/food6.jpg"
 import Axios from "axios"
 import { useNavigate } from 'react-router-dom'
+const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 function Home({ setBrowseMealsList }) {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ function Home({ setBrowseMealsList }) {
     // Perform the API request using Axios (replace with your API endpoint)
     // Once data is fetched, navigate to the "APIDataPage"
     try {
-      Axios.post('http://localhost:3000/search/browse')
+      Axios.post(`${BACKEND_API_DOMAIN}/search/browse`)
         .then(response => {
           const apiData = JSON.parse(response.data)
           // Pass the data as state to the "APIDataPage"

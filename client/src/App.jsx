@@ -20,7 +20,6 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   // use Firebase auth to detect if user is logged in
   const user = auth.currentUser
-  // console.log(user, isAuthenticated)
 
   useEffect(() => {
     // firebase function (check if authentication changes...)

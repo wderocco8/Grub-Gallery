@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import Axios from "axios"
 import { useNavigate, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import handleRecipeClick from "../functions/handleRecipeClick"

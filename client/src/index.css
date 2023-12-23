@@ -51,3 +51,10 @@ body {
     transform: translateY(2px);
     box-shadow: none;
 }
+
+/* navbar styling */
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}

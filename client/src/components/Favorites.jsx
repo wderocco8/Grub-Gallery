@@ -1,5 +1,4 @@
-import Axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
 import handleRecipeClick from "../functions/handleRecipeClick"
@@ -9,7 +8,6 @@ import x_mark from '../assets/x_mark.png'
 
 function Favorites({ user, favoritesList, setFavoritesList, isAuthenticated, setRecipe }) {
   const navigate = useNavigate()
-  console.log(favoritesList)
 
   // Function to call listFavorites with the required parameters
   const callListFavorites = () => {
