@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 
 const mongoUri = process.env.MONGODB_URI        // obtain URI from .env file
 const port = process.env.PORT
+console.log("mongoURI", mongoUri)
 
 // initialize express application
 const app = express()
