@@ -2,13 +2,9 @@ const express = require("express")
 const cors = require('cors')
 const mongoose = require('mongoose')
 
-// obtain .env variables using `dotenv`
-// const path = require('path')
-// require('dotenv').config({ path: path.join(__dirname, '.env') }) // Adjust the path accordingly
-
-const mongoUri = process.env.MONGODB_URI        // obtain URI from .env file
+// vercel : automatically injects environment variables at runtime
+const mongoUri = process.env.MONGODB_URI
 const port = process.env.PORT
-console.log("mongoURI", mongoUri)
 
 // initialize express application
 const app = express()
@@ -30,6 +26,6 @@ app.use("/users", userRoute)
 app.use("/search", spoonacularRoute)
 
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-})
+// app.listen(port, () => {
+//   console.log(`Server is running on http://localhost:${port}`);
+// })
