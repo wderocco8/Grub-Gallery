@@ -3,12 +3,12 @@ import profile_photo from '../assets/profile.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { Squash as Hamburger } from 'hamburger-react'
-import { useClickAway } from "react-use";
-import { useRef } from "react";
-import { routes } from "../HamburgerMenuRoutes.js";
-import { AnimatePresence, motion } from "framer-motion";
+import { useClickAway } from "react-use"
+import { useRef } from "react"
+import { routes } from "../HamburgerMenuRoutes.js"
+import { AnimatePresence, motion } from "framer-motion"
 import Axios from 'axios'
-import '../index.css';
+import '../index.css'
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 
