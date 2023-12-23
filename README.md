@@ -119,8 +119,7 @@ _To install and run locally, please complete the following steps:_
     VITE_GAPI_KEY=obtain_gapi_key_from_Google_Cloud_console
     VITE_GOOGLE_CLIENT_ID=obtain_client_id_key_from_Google_Cloud_console
     # leave scopes unchanged (not secret, but good practice to store here)
-    VITE_SCOPE1=https://www.googleapis.com/auth/calendar
-    VITE_SCOPE2=https://www.googleapis.com/auth/calendar.events
+    VITE_SCOPE=https://www.googleapis.com/auth/calendar
 
     # Firebase config keys
     VITE_FIREBASE_API_KEY=obtain_from_firebaseConfig
