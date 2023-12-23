@@ -1,7 +1,8 @@
 import Axios from "axios"
+const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 async function removeFavorite(user, recipe, callListFavorites){
-    Axios.delete("http://localhost:3000/users/removeFavorite", {
+    Axios.delete(`${BACKEND_API_DOMAIN}/users/removeFavorite`, {
       params: {
         user_id: user.uid,
         recipe

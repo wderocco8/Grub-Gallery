@@ -1,4 +1,5 @@
 import Axios from "axios"
+const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 // handleRecipeClick : calls spoonacular api from backend `/search/recipe` endpoint and updates `recipe` object
 const handleRecipeClick = async (id, setRecipe, navigate) => {
@@ -7,7 +8,7 @@ const handleRecipeClick = async (id, setRecipe, navigate) => {
     // Once data is fetched, navigate to the "APIDataPage"
     try {
       // Perform the API request using Axios (replace with your API endpoint)
-      const response = await Axios.post("http://localhost:3000/search/recipe", { id: id })
+      const response = await Axios.post(`${BACKEND_API_DOMAIN}/search/recipe`, { id: id })
       const apiData = response.data
 
       // Pass the data as state to the "APIDataPage"

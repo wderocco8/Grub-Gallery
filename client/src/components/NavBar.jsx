@@ -9,6 +9,7 @@ import { routes } from "../HamburgerMenuRoutes.js";
 import { AnimatePresence, motion } from "framer-motion";
 import Axios from 'axios'
 import './Header.css';
+const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 
 function NavBar({ setSearchMealsList, user, isAuthenticated }) {
@@ -41,7 +42,7 @@ function NavBar({ setSearchMealsList, user, isAuthenticated }) {
             searchString
         }
         try {
-            Axios.post("http://localhost:3000/search/meals", body).then((response) => {
+            Axios.post(`${BACKEND_API_DOMAIN}/search/meals`, body).then((response) => {
                 // parse response data from JSON to a newly created javascript object, where the keys turn into attributes and the values turn into the value of those attributes
                 const data = JSON.parse(response.data)
 

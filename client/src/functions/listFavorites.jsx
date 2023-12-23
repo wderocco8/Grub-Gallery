@@ -1,10 +1,11 @@
 import Axios from "axios"
+const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 function listFavorites(user, isAuthenticated, setFavoritesList) {
     // only run get request if user is authenticated
     if (isAuthenticated) {
       // Send "get" request using Axios to the backend and sets favoritesList to its data returned back
-      Axios.get('http://localhost:3000/users/getFavorites',
+      Axios.get(`${BACKEND_API_DOMAIN}/users/getFavorites`,
         {
           params: {
             user_id: user.uid

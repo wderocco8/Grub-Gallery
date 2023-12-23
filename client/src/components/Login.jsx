@@ -4,6 +4,7 @@ import { signInWithGoogle, handleSignOut } from "../Firebase"
 import Axios from 'axios'
 import checkmark from "../assets/checkmark.png";
 import foodsafety from "../assets/food-safety.png";
+const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 function Login({ isAuthenticated }) {
 
@@ -22,7 +23,7 @@ function Login({ isAuthenticated }) {
 
 
                 // Call backend's MongoDB 'createUsers' endpoint to create the user
-                Axios.post("http://localhost:3000/users/createUser", body)
+                Axios.post(`${BACKEND_API_DOMAIN}/users/createUser`, body)
                     .then((response) => {
                         console.log("Create User API call response: ", response);
                     })
