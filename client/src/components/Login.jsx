@@ -39,60 +39,64 @@ function Login({ isAuthenticated }) {
 
 
     return (
-        <div className="flex justify-center items-center gap-[200px] mt-[100px] ml-[100px] mr-[100px]">
-            {/* Column 1 */}
-            <div className='flex flex-col gap-[50px] items-center mr-auto'>
-                <img src={foodsafety} className="max-w-[300px]" />
+        // center entire div on screen
+        <div className='flex justify-center items-center h-screen'>
+
+            <div className="flex justify-center items-center gap-[150px]">
+                {/* Column 1 */}
+                <div className='flex flex-col gap-[30px] items-center mr-auto'>
+                    <img src={foodsafety} className="max-w-[250px]" />
 
 
-                {/* Main Content */}
-                <h1 className="text-[34px] font-semibold">Find healthy and trusted recipes</h1>
+                    {/* Main Content */}
+                    <h1 className="text-[34px] font-semibold">Find healthy and trusted recipes</h1>
 
-                {/* Checkmarks and Text */}
-                <div className="flex flex-col gap-[20px] text-[24px]">
-                    <div className="flex items-center mb-4">
-                        <img src={checkmark} className="h-8 pr-5" />
-                        <h1>Find your favorite meals and recipes</h1>
+                    {/* Checkmarks and Text */}
+                    <div className="flex flex-col gap-[20px] text-[24px]">
+                        <div className="flex items-center mb-4">
+                            <img src={checkmark} className="h-8 pr-5" />
+                            <h1>Find your favorite meals and recipes</h1>
+                        </div>
+                        <div className="flex items-center mb-4">
+                            <img src={checkmark} className="h-8 pr-5" />
+                            <h1>Filter suggestions for allergens, macros...</h1>
+                        </div>
+                        <div className="flex items-center">
+                            <img src={checkmark} className="h-8 pr-5" />
+                            <h1>
+                                Instantly save recipes with{' '}
+                                <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener noreferrer" className="underline">
+                                    Google Calendar
+                                </a>
+                            </h1>
+                        </div>
                     </div>
-                    <div className="flex items-center mb-4">
-                        <img src={checkmark} className="h-8 pr-5" />
-                        <h1>Filter suggestions for allergens, macros... etc.</h1>
-                    </div>
-                    <div className="flex items-center">
-                        <img src={checkmark} className="h-8 pr-5" />
-                        <h1>
-                            Instantly save recipes with{' '}
-                            <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener noreferrer" className="underline">
-                                Google Calendar
-                            </a>
-                        </h1>
-                    </div>
+
+                </div>
+
+
+                {/* Column 2 */}
+                <div className="flex justify-center items-center box-border h-[500px] w-[600px] min-w-[400px] rounded-3xl bg-[#B28370] boxShadow">
+                    {/* Sign Out Button */}
+                    {isAuthenticated ?
+                        <button className="google-btn w-60 " onClick={handleSignOut}>
+                            Sign Out
+                        </button>
+                        :
+                        <div className='flex flex-col gap-[50px] text-white'>
+                            <div className='flex flex-col gap-[20px] mt-[80px] ml-[50px] mr-[50px]'>
+                                <h1 className="text-[40px] font-semibold">Sign up or log in</h1>
+                                <p className="text-[20px]">Login below to start utilizing GrubGallery’s advanced features (e.g. Google Calendar, personalized meal suggestions...)</p>
+                            </div>
+
+                            <button className="google-btn mb-4 md:mb-0 ml-auto mr-auto" onClick={handleSignIn}>
+                                Sign In With Google
+                            </button>
+                        </div>
+                    }
                 </div>
 
             </div>
-
-
-            {/* Column 2 */}
-            <div className="flex justify-center items-center box-border h-[500px] w-[600px] min-w-[400px] rounded-3xl bg-[#B28370] boxShadow">
-                {/* Sign Out Button */}
-                {isAuthenticated ?
-                    <button className="google-btn w-60 " onClick={handleSignOut}>
-                        Sign Out
-                    </button>
-                    :
-                    <div className='flex flex-col gap-[50px] text-white'>
-                        <div className='flex flex-col gap-[20px] mt-[80px] ml-[50px] mr-[50px]'>
-                            <h1 className="text-[40px] font-semibold">Sign up or log in</h1>
-                            <p className="text-[20px]">Login below to start utilizing GrubGallery’s advanced features (e.g. Google Calendar, personalized meal suggestions...)</p>
-                        </div>
-
-                        <button className="google-btn mb-4 md:mb-0 ml-auto mr-auto" onClick={handleSignIn}>
-                            Sign In With Google
-                        </button>
-                    </div>
-                }
-            </div>
-
         </div>
 
     )
