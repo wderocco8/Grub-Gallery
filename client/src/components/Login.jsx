@@ -1,9 +1,8 @@
 // import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
 import { signInWithGoogle, handleSignOut } from "../Firebase"
 import Axios from 'axios'
-import checkmark from "../assets/checkmark.png";
-import foodsafety from "../assets/food-safety.png";
+import checkmark from "../assets/checkmark.png"
+import foodsafety from "../assets/food-safety.png"
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 function Login({ isAuthenticated }) {

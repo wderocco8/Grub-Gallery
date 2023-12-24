@@ -4,6 +4,7 @@ import food3 from "../assets/food3.jpg"
 import food4 from "../assets/food4.jpg"
 import food5 from "../assets/food5.jpg"
 import food6 from "../assets/food6.jpg"
+import privacy from "../assets/privacy.png"
 import Axios from "axios"
 import { useNavigate } from 'react-router-dom'
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
@@ -79,7 +80,12 @@ function Home({ setBrowseMealsList }) {
   
         </div>
   
-        <button className="absolute bottom-0 mb-[1rem]" onClick={viewPrivacyPolicy}>Privacy Policy</button>
+        <button className="absolute bottom-0 mb-[1rem]" onClick={viewPrivacyPolicy}>
+          <div className="flex items-center gap-1">
+            <img src={privacy} alt="Privacy Icon" className="h-[15px]" />
+            Privacy Policy 
+          </div>
+        </button>
       </div>
 
   )
