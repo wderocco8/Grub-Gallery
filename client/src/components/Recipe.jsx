@@ -89,17 +89,21 @@ function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList
           <div>
               <h2>{recipe.title}</h2>
               {displayImageIcon}
-              {isAuthenticated && 
-                <>
-                  <DateTimePicker
-                      className="w-[250px]"
-                      value={selectedDateTime}
-                      onChange={(newDateTime) => setSelectedDateTime(newDateTime)}
-                  />
-                  
-                  <button onClick={handleAddEvent}>Add to gcal</button> 
-                </>
-              }
+             
+              {/* google calendar : conditionally render if user is signed in */}
+              <div className="flex flex-col gap-[5px] mt-[10px]">
+                {isAuthenticated && 
+                  <>
+                    <DateTimePicker
+                        className="w-[400px]"
+                        value={selectedDateTime}
+                        onChange={(newDateTime) => setSelectedDateTime(newDateTime)}
+                    />
+                    
+                    <button className="google-btn" onClick={handleAddEvent}>Add to Google Calendar</button> 
+                  </>
+                }
+              </div>
           </div>
           <Info>
           
@@ -180,6 +184,10 @@ const Button = styled.button`
 const Info = styled.div`
 margin-left: ${props => (props.activeTab === 'instructions' ? '4rem' : props.activeTab === 'ingredients' ? '-196rem' : '0')};
   padding: 0 2rem; /* Adjust padding as needed */
+  h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
   h3 {
     font-size: 1.2rem;
   }
