@@ -61,51 +61,28 @@ word-break: break-word !important;
       </div>`
 
     return (
-        <div className="m-20" dangerouslySetInnerHTML={{ __html: termlyHTML }} />
+        <>
+          <div className="m-[80px]">
+            {/* Limited Use Policy Disclosure */}
+            <h1 style={{ fontFamily: 'Arial', fontSize: '20px', fontWeight: 'bold' }}>
+                Limited Use Policy Disclosure:
+            </h1>
+            <p style={{ fontFamily: 'Arial' , color: '#595959' }}>
+              Grub Gallery complies with the Google API Services User Data Policy, 
+              including Limited Use requirements. Our use and transfer of information received 
+              from Google APIs adhere to the specified policy. For more details, please refer 
+              to the 
+              <a href="https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ color: 'blue', textDecoration: 'underline', marginLeft: '5px' }}>
+                Google API Services User Data Policy
+              </a>.
+            </p>
+          </div>
+          <div className="m-20" dangerouslySetInnerHTML={{ __html: termlyHTML }} />
+        </>
       )
   }
   
   export default PrivacyPolicy
-
-  
-    //   <div className="max-w-2xl mx-auto mt-8 p-4">
-    //     <h1 className="text-3xl font-semibold mb-4">Privacy Policy</h1>
-  
-    //     <p className="mb-4">
-    //       Welcome to Grub Gallery! This Privacy Policy describes how we collect, use, and protect your personal information.
-    //     </p>
-  
-    //     <h2 className="text-xl font-semibold mb-2">Information We Collect</h2>
-    //     <p className="mb-4">
-    //       We collect the following types of information:
-    //       <ul className="list-disc pl-6">
-    //         <li>Google User Data: We access and use data from user's Google accounts via{' '}
-    //             <a className="text-blue-500 hover:underline" href="https://firebase.google.com/docs/auth" target="_blank" rel="noopener noreferrer">
-    //                 Firebase Google OAuth 2.0
-    //             </a>
-    //             {' '}to store their favorite recipes via a secure MongoDB Atlas cluster.
-    //         </li>
-    //         <li>Google Calendar Data: We access and use data from the Google Calendar API (thought we do **not** access their personal events) to provide users the ability to add recipes to their calendar.</li>
-    //       </ul>
-    //     </p>
-  
-    //     <h2 className="text-xl font-semibold mb-2">How We Use Your Information</h2>
-    //     <p className="mb-4">
-    //       We use the collected data for the following purposes:
-    //       <ul className="list-disc pl-6">
-    //         <li>Personalization: To provide personalized dishes and recipes based on the user's Google Calendar events.</li>
-    //       </ul>
-    //     </p>
-  
-    //     <h2 className="text-xl font-semibold mb-2">Contact Us</h2>
-    //     <p className="mb-4">
-    //       If you have any questions or concerns regarding this Privacy Policy, please contact us at:
-    //       <ul className="list-disc pl-6">
-    //         <li>Matthew Hilliard: <a href="mailto:mch2003@bu.edu">mch2003@bu.edu</a></li>
-    //         <li>William De Rocco: <a href="mailto:wderocco@bu.edu">wderocco@bu.edu</a></li>
-    //         <li>Brinja Vogler: <a href="mailto:bvogler@bu.edu">bvogler@bu.edu</a></li>
-    //         <li>Mensun Wang: <a href="mailto:mensun@bu.edu">mensun@bu.edu</a></li>
-    //         <li>Sean Fung: <a href="mailto:sfung10@bu.edu">sfung10@bu.edu</a></li>
-    //       </ul>
-    //     </p>
-    //   </div>
