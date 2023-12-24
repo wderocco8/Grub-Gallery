@@ -66,7 +66,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About The Project: [Grub Gallery](https://grub-gallery.vercel.app)
 
 Grub Gallery is a dynamic web application built using the MERN (MongoDB, Express.js, React, Node.js) stack, integrating Google OAuth, Spoonacular API, and Google Calendar API. This project allows users to discover and personalize dishes and recipes effortlessly.
 
