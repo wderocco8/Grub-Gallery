@@ -89,7 +89,7 @@ function Login({ isAuthenticated }) {
                             </div>
 
                             <button className="google-btn mb-4 md:mb-0 ml-auto mr-auto" onClick={handleSignIn}>
-                                Sign In With Google
+                                Sign in with Google
                             </button>
                         </div>
                     }
