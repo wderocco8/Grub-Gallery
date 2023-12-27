@@ -66,7 +66,7 @@ function Home({ setBrowseMealsList }) {
   
           {/* column 2 (only 1 row) */}
           <div className="col-span-1">
-            <div className="box-border h-[500px] max-w-[800px] rounded-3xl bg-[#B28370] boxShadow ml-auto">
+            <div className="box-border max-w-[800px] rounded-3xl bg-[#B28370] boxShadow ml-auto">
               <div className="grid grid-cols-3 p-9 gap-12">
                 <img src={food1} className="min-h-48 rounded-xl" />
                 <img src={food2} className="min-h-48 rounded-xl" />

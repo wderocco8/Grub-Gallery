@@ -23,6 +23,7 @@ dayjs.extend(localizedFormat)
 function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList }) {
   const [activeTab, setActiveTab] = useState('instructions')
 
+    console.log(recipe.image)
     // selectedDateTime : tracks the start date and time for the user's event
     const [selectedDateTime, setSelectedDateTime] = useState(
       dayjs().startOf('day').add(12, 'hours')

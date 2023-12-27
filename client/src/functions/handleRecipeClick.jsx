@@ -1,5 +1,6 @@
 import Axios from "axios"
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
+import defaultImage from '../assets/defaultRecipe.gif'
 
 // handleRecipeClick : calls spoonacular api from backend `/search/recipe` endpoint and updates `recipe` object
 const handleRecipeClick = async (id, setRecipe, navigate) => {
@@ -12,8 +13,13 @@ const handleRecipeClick = async (id, setRecipe, navigate) => {
       const apiData = response.data
 
       // Pass the data as state to the "APIDataPage"
-      const parsedData = JSON.parse(apiData)
-
+      let parsedData = JSON.parse(apiData)
+      
+      // check if recipe image exists (if not, use default url)
+      if (!parsedData.image) {
+        parsedData.image = defaultImage
+      }
+      
       // Use the setRecipe directly
       setRecipe(parsedData)
 
