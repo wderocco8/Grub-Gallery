@@ -92,8 +92,18 @@ router.get("/getFavorites", async (req, res) => {
 // endpoint to add recipe to user's favorites
 router.put("/addFavorite", async (req, res) => {
   try {
-    console.log(req)
     const body = req.body
+    
+    // Check if the recipe is already in favorites
+    const isRecipeExists = await UserModel.exists({
+      user_id: body.user_id,
+      'favorites.recipe_id': body.recipe_id,
+    })
+
+    if (isRecipeExists) {
+      return res.status(400).json({ message: 'Recipe already exists in favorites.' })
+    }
+
     const result = await UserModel.findOneAndUpdate(
       { user_id: body.user_id },
       {
@@ -101,18 +111,20 @@ router.put("/addFavorite", async (req, res) => {
           favorites: {
             recipe_id: body.recipe_id,
             title: body.title,
-            image: body.image
-          }
-        }
+            image: body.image,
+          },
+        },
       },
+      { new: true } // This option returns the modified document
     )
   
     // Sends data back and ends request
-    res.send(result)
+    res.send(result);
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 })
+
 
 // Endpoint to remove recipe from user's favorites .delete is for deleting existing data
 router.delete("/removeFavorite", async (req, res) => {
