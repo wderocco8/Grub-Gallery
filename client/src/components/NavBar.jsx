@@ -75,7 +75,7 @@ function NavBar({ setSearchMealsList, user, isAuthenticated }) {
     }
 
     return (
-        <div className="sticky bg-[#fad7b9] ">
+        <div className="sticky">
             <div className="flex flex-row justify-center items-center mx-auto my-auto overflow-hidden">
 
                 {/* Makes everything within this Link container a href, which points to the home route of pathname "/" */}
