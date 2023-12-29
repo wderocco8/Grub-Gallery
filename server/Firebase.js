@@ -12,10 +12,8 @@ const CLIENT_ID = process.env.CLIENT_ID
 const scope = process.env.SCOPE
 
 // Import the functions you need from the SDKs you need
-const firebase = require("firebase/app")
-require("firebase/auth")
-require("firebase/analytics")
-const gapi = require('gapi-script')
+import { initializeApp } from 'firebase/app'
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -30,44 +28,25 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig)
-const analytics = firebase.analytics()
+const app = initializeApp(firebaseConfig)
 
 // Initialize Firebase authentication
-const auth = firebase.auth(app)
+const auth = getAuth(app)
 
 // function to signInWithGoogle (using Firebase authentication)
 exports.signInWithGoogle = async () => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("starting sign in...")
-
+      // initialize google OAuth
       const provider = new firebase.auth.GoogleAuthProvider()
+      // add appropriate scopes (for calendar api)
       provider.addScope(scope)
+      // sign in with popup
       const result = await firebase.auth().signInWithPopup(provider)
 
-      const credential = firebase.auth.GoogleAuthProvider.credentialFromResult(result)
-      const accessToken = credential.accessToken
-
-      // Ensure the gapi.client is initialized
-      await gapi.load('client:auth2', async () => {
-        await gapi.client.init({
-          apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-          scope: scope
-        })
-
-        // Set the access token for authorization
-        if (accessToken) {
-          gapi.auth.setToken({
-            access_token: accessToken
-          })
-        }
-      })
-      console.log("finished sign in...")
       // Resolve with gapi object
-      resolve({ result: result.user, gapi })
+      resolve({ result: result.user })
+      // resolve({ result: result.user, gapi })
     } catch (error) {
       console.log("Error authenticating with Google:", error)
       reject(error)
@@ -78,10 +57,7 @@ exports.signInWithGoogle = async () => {
 // function to sign out (with firebase authentication)
 exports.handleSignOut = async () => {
   try {
-    // IMPORTANT: if authenticated with google Calendar api --> sign out (prevents altering somebody else's google calendar)
-    if (gapi.auth2 && gapi.auth2.getAuthInstance()) {
-      await gapi.auth2.getAuthInstance().signOut()
-    }
+    
     // additionally, sign out with FIREBASE
     await auth.signOut()
     console.log("Successfully signed out")
