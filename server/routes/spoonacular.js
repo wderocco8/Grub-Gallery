@@ -1,7 +1,7 @@
 // Note: this file exists to process spoonacular api call from frontend
 const express = require("express")
 const router = express.Router()
-const axios = require('axios');
+const Axios = require('axios');
 const cors = require('cors')
 
 
@@ -25,7 +25,7 @@ router.post("/meals", async (req, res) => {
 
     // call spoonacular api
     try {
-      const response = await axios.request(config)
+      const response = await Axios.request(config)
 
       // Turns the data from JSON (defualt) to string
       meals = JSON.stringify(response.data)
@@ -60,7 +60,7 @@ router.post("/browse", async (req, res) => {
 
     // call spoonacular api
     try {
-      const response = await axios.request(config)
+      const response = await Axios.request(config)
       meals = JSON.stringify(response.data)
       console.log(meals)
       res.status(200).json(meals)
@@ -92,7 +92,7 @@ router.post("/recipe", async (req, res) => {
 
     // call spoonacular api
     try {
-      const response = await axios.request(config)
+      const response = await Axios.request(config)
       meals = JSON.stringify(response.data)
       console.log(meals)
       res.status(200).json(meals)

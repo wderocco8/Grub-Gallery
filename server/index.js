@@ -23,10 +23,12 @@ mongoose.connect(mongoUri)
 // use express Router to specific endpoints
 const userRoute = require("./routes/user.js")
 const spoonacularRoute = require("./routes/spoonacular.js")
+const googleRoute = require("./routes/google.js")
 
 // NOTE: access all users e.g. http://localhost:${port}/users/getUsers
 app.use("/users", userRoute)
 app.use("/search", spoonacularRoute)
+app.use("/google", googleRoute)
 
 
 app.listen(port, () => {
