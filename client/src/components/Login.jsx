@@ -11,24 +11,24 @@ function Login({ isAuthenticated }) {
     const handleSignIn = async () => {
         try {
             // if google auth fails (jump to error catch)
-            const { result } = await signInWithGoogle();
+            const { result } = await signInWithGoogle()
             if (result) {
                 // body: object of data being sent to backend endpoint
                 const body = {
                     name: result.displayName,
                     email: result.email,
                     user_id: result.uid
-                };
+                }
 
 
                 // Call backend's MongoDB 'createUsers' endpoint to create the user
                 Axios.post(`${BACKEND_API_DOMAIN}/users/createUser`, body)
                     .then((response) => {
-                        console.log("Create User API call response: ", response);
+                        console.log("Create User API call response: ", response)
                     })
                     .catch((error) => {
-                        console.log("Error making Axios post request:", error);
-                    });
+                        console.log("Error making Axios post request:", error)
+                    })
             }
 
         } catch (error) {

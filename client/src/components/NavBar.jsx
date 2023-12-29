@@ -8,7 +8,6 @@ import { useRef } from "react"
 import { routes } from "../HamburgerMenuRoutes.js"
 import { AnimatePresence, motion } from "framer-motion"
 import Axios from 'axios'
-import '../index.css'
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 
