@@ -1,6 +1,7 @@
 // import { jwtDecode } from 'jwt-decode';
 import { signInWithGoogle, handleSignOut } from "../Firebase"
 import Axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
 import checkmark from "../assets/checkmark.png"
 import foodsafety from "../assets/food-safety.png"
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
@@ -75,15 +76,20 @@ function Login({ isAuthenticated }) {
 
 
                 {/* Column 2 */}
-                <div className="flex justify-center items-center box-border h-[500px] w-[600px] min-w-[400px] rounded-3xl bg-[#B28370] boxShadow">
+                <div className="flex justify-center items-center box-border h-[400px] w-[600px] min-w-[400px] rounded-3xl bg-[#B28370] boxShadow">
                     {/* Sign Out Button */}
                     {isAuthenticated ?
-                        <button className="google-btn w-60 " onClick={handleSignOut}>
-                            Sign Out
-                        </button>
+                        <div>
+                            <Link to="/update-profile">
+                                Update Profile
+                            </Link>
+                            <button className="google-btn w-60 " onClick={handleSignOut}>
+                                Sign Out
+                            </button>
+                        </div>
                         :
                         <div className='flex flex-col gap-[50px] text-white'>
-                            <div className='flex flex-col gap-[20px] mt-[80px] ml-[50px] mr-[50px]'>
+                            <div className='flex flex-col gap-[20px]  ml-[50px] mr-[50px]'>
                                 <h1 className="text-[40px] font-semibold">Sign up or log in</h1>
                                 <p className="text-[20px]">Login below to start utilizing GrubGallery’s advanced features (e.g. Google Calendar, personalized meal suggestions...)</p>
                             </div>
