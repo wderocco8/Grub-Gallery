@@ -15,7 +15,7 @@ function listRestrictions(user, isAuthenticated, setRestrictions) {
             console.log("getting restrictions", response)
   
             // Need to get favorites
-            setRestrictions(response.data)
+            setRestrictions(response.data.dietary_restrict)
           })
           .catch((error) => {
             console.error('Error fetching restrictions:', error)

@@ -23,9 +23,24 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
 
     // update `restrictionChips` each time `restrictions` changes
     useEffect(() => {
-        setRestrictionChips(Object.keys(restrictions).map((key) => (
-            null
-        )))
+        setRestrictionChips(Object.keys(restrictions).flatMap((key) => {
+            const values = restrictions[key]
+            // ensure that values is a non-empty array
+            if (Array.isArray(values) && values.length > 0) {
+            return values.map((value, index) => (
+                <ListItem key={key + value}>
+                    <Chip
+                        label={`${key} : ${value}`}
+                        onDelete={() => removeRestriction(key, value)}
+                    />
+                </ListItem>
+            ))
+            
+            } else {
+                return []
+            }
+        }
+        ))
     }, [restrictions])
 
     // exclusion : used to keep track of the specific `exclusion` the user is targeting in the form
@@ -45,7 +60,7 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
         "diet" : ['Gluten Free', 'Ketogenic', 'Vegetarian', 'Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan', 'Pescetarian', 'Paleo', 'Primal', 'Low FODMAP', 'Whole30'],
         "intolerances" : ['Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree Nut', 'Wheat'],
         "cuisine" : ['African', 'Asian', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese', 'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian', 'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'],
-        "excludeCusine" : ['African', 'Asian', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese', 'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian', 'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'],
+        "excludeCuisine" : ['African', 'Asian', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese', 'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian', 'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'],
         "maxReadyTime" : [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200]        // values in minutes
     }
 
@@ -154,7 +169,7 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
 
 
                 {/* Column 1 */}
-                <div className="flex justify-center box-border h-[550px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
+                <div className="flex flex-col box-border h-[550px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
                     <h1 className="text-[40px] mt-[20px] font-semibold">Your Restrictions</h1>
                     {/* Restrictions chips */}
                     <Paper
