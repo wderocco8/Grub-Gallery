@@ -8,16 +8,18 @@ const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 
 
-function UpdateProfile({ isAuthenticated, restrictionsList, setRestrictionsList }) {
+function UpdateProfile({ user, isAuthenticated, restrictionsList, setRestrictionsList }) {
     // exclusion : used to keep track of the specific `exclusion` the user is targeting in the form
     const [exclusion, setExclusion] = useState('')
     // exclusionValue : used to keep track of the specific `exclusion` the user is targeting in the form
     const [exclusionValue, setExclusionValue] = useState('')
     // exclusionValuesMap : used to keep track of possible values based on which exclusion has been selected
     const [exclusionValuesMap, setExclusionValuesMap] = useState([])
-
+    
     // specification : used to keep track of the specific `specification` the user is targeting in the form
     const [specification, setSpecification] = useState('')
+    // specificationValue : used to keep track of the specific `specification` the user is targeting in the form
+    const [specificationValue, setSpecificationValue] = useState('')
 
     // exclusionMap : hashmap of all exclusion-value pairings
     const exclusionMap = {
@@ -57,8 +59,35 @@ function UpdateProfile({ isAuthenticated, restrictionsList, setRestrictionsList 
         setSpecification(event.target.value)
     }
 
-    const addRestriction = (event) => {
+    // addRestriction : takes in `isExclusion=true` if we are adding an exclusion .... makes backend request
+    const addRestriction = (isExclusion) => {
+        try {
+            // error handling : if form not filled properly
+            if (isExclusion && !(exclusion && exclusionValue)) {
+                alert("Please select both `exclusion` and `selections`!")
+                return
+            } else if (!isExclusion && !(specification && specificationValue)) {
+                alert("Please select both `specification` and `selections`!")
+                return
+            }
 
+            // body : object of data being sent to backend endpoint
+            const body = {
+                user_id: user.uid,
+                restriction: isExclusion ? exclusion : specification,
+                value: isExclusion ? exclusionValue : specificationValue
+            }
+
+            Axios.put(`${BACKEND_API_DOMAIN}/users/addRestriction`, body)
+                .then((response) => {
+                    // **********call some method to fetch/update restrictions... 
+                    console.log("Add favorite api call repsonse: " + response)
+                }).catch((error) => {
+                    console.error('Error adding restriction:', error)
+                })
+        } catch (error) {
+            console.error('Error updating restrictions in backend:', error)
+        }
     }
     return (
         // center entire div on screen
@@ -68,7 +97,7 @@ function UpdateProfile({ isAuthenticated, restrictionsList, setRestrictionsList 
 
 
                 {/* Column 1 */}
-                <div className="flex justify-center box-border h-[500px] w-[420px] min-w-[400px] rounded-3xl bg-[#B28370] text-white boxShadow">
+                <div className="flex justify-center box-border h-[550px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
                     <h1 className="text-[40px] mt-[20px] font-semibold">Your Restrictions</h1>
                 </div>
 
@@ -111,7 +140,7 @@ function UpdateProfile({ isAuthenticated, restrictionsList, setRestrictionsList 
                             </Select>
                         </FormControl>
 
-                        <button onClick={addRestriction} className="bg-gray-700 hover:bg-gray-900 text-white px-5 h-[55px] rounded">
+                        <button onClick={() => addRestriction(true)} className="bg-gray-700 hover:bg-gray-900 text-white px-5 h-[55px] rounded">
                             Add Exclusion
                         </button>
                     </div>

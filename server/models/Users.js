@@ -23,12 +23,31 @@ const UserSchema = new mongoose.Schema({
 
     // Users are not required to have dietary restricts
     dietary_restrict: {
-        type: [String],
-        required: false,
+        diet: {
+            type: [String],
+            required: false
+        },
+        intolerances: {
+            type: [String],
+            required: false
+        },
+        cuisine: {
+            type: [String],
+            required: false
+        },
+        excludeCuisine: {
+            type: [String],
+            required: false
+        },
+        maxReadyTime: {
+            type: [String],
+            required: false
+        },
+
     },
 
     // Users are not required to have favorite dishes
-    favorites: {
+    favorites: [{
         recipe_id: {
             type: String,
             required: false
@@ -41,7 +60,7 @@ const UserSchema = new mongoose.Schema({
             type: String,
             required: false
         }
-    }
+    }]
 })
 
 // Connects with the MongoDB and sets this model for the "users" collection. Should be called "UserCollection"

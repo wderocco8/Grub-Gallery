@@ -77,7 +77,7 @@ function App() {
         <Route path='/' element={<Home setBrowseMealsList={setBrowseMealsList} />} />
         {/* Sets the route pathnames to X, to be used later when trying to route Y to the X's element. So X is used as a pathname to route to X's element */}
         <Route path='/login' element={<Login isAuthenticated={isAuthenticated} />} />
-        <Route path='/update-profile' element={<UpdateProfile isAuthenticated={isAuthenticated} restrictionsList={restrictionsList} setRestrictionsList={setRestrictionsList} />} />
+        <Route path='/update-profile' element={<UpdateProfile user={user} isAuthenticated={isAuthenticated} restrictionsList={restrictionsList} setRestrictionsList={setRestrictionsList} />} />
         <Route path='/browse/display-results' element={<DisplayResults user={user} mealsList={browseMealsList} setRecipe={setRecipe} isAuthenticated={isAuthenticated} favoritesList={favoritesList} setFavoritesList={setFavoritesList}/>} />
         <Route path='/search/display-results' element={<DisplayResults user={user} mealsList={searchMealsList} setRecipe={setRecipe} isAuthenticated={isAuthenticated} favoritesList={favoritesList} setFavoritesList={setFavoritesList}/>} />
         <Route path='/favorites' element={<Favorites user={user} favoritesList={favoritesList} setFavoritesList={setFavoritesList} isAuthenticated={isAuthenticated} setRecipe={setRecipe} />} />
