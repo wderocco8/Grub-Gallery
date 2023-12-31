@@ -1,14 +1,33 @@
 import Axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import listRestrictions from '../functions/listRestrictions'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
+import { styled } from '@mui/material/styles'
+import Chip from '@mui/material/Chip'
+import Paper from '@mui/material/Paper'
+
+const ListItem = styled('li')(({ theme }) => ({
+    margin: theme.spacing(0.5),
+}))
+
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 
 
-function UpdateProfile({ user, isAuthenticated, restrictionsList, setRestrictionsList }) {
+function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions }) {
+    // restrictionChips : array of chips for each restriction (updated w/ `restricitons`)
+    const [restrictionChips, setRestrictionChips] = useState([])
+
+    // update `restrictionChips` each time `restrictions` changes
+    useEffect(() => {
+        setRestrictionChips(Object.keys(restrictions).map((key) => (
+            null
+        )))
+    }, [restrictions])
+
     // exclusion : used to keep track of the specific `exclusion` the user is targeting in the form
     const [exclusion, setExclusion] = useState('')
     // exclusionValue : used to keep track of the specific `exclusion` the user is targeting in the form
@@ -80,8 +99,18 @@ function UpdateProfile({ user, isAuthenticated, restrictionsList, setRestriction
 
             Axios.put(`${BACKEND_API_DOMAIN}/users/addRestriction`, body)
                 .then((response) => {
-                    // **********call some method to fetch/update restrictions... 
-                    console.log("Add favorite api call repsonse: " + response)
+                    // call listRestrictions to ensure the `restrictions` state is up-to-date with database
+                    listRestrictions(user, isAuthenticated, setRestrictions)
+
+                    // update variables
+                    if (isExclusion) {
+                        setExclusion('')
+                        setExclusionValue('')
+                    } else {
+                        setSpecification('')
+                        setSpecificationValue('')
+                    }
+                    console.log("Add restriction api call repsonse: " + response)
                 }).catch((error) => {
                     console.error('Error adding restriction:', error)
                 })
@@ -89,6 +118,34 @@ function UpdateProfile({ user, isAuthenticated, restrictionsList, setRestriction
             console.error('Error updating restrictions in backend:', error)
         }
     }
+
+    // addRestriction : takes in `isExclusion=true` if we are adding an exclusion .... makes backend request
+    const removeRestriction = (restriction, value) => {
+        try {
+            console.log("clicked", restriction, value)
+            // body : object of data being sent to backend endpoint
+            const body = {
+                params: {
+                    user_id: user.uid,
+                    restriction: restriction,
+                    value: value
+                }
+            }
+
+            Axios.delete(`${BACKEND_API_DOMAIN}/users/removeRestriction`, body)
+                .then((response) => {
+                    // call listRestrictions to ensure the `restrictions` state is up-to-date with database
+                    listRestrictions(user, isAuthenticated, setRestrictions)
+
+                    console.log("Remove restriction api call repsonse: " + response)
+                }).catch((error) => {
+                    console.error('Error adding restriction:', error)
+                })
+        } catch (error) {
+            console.error('Error updating restrictions in backend:', error)
+        }
+    }
+    
     return (
         // center entire div on screen
         <div className='flex items-center h-screen'>
@@ -99,6 +156,21 @@ function UpdateProfile({ user, isAuthenticated, restrictionsList, setRestriction
                 {/* Column 1 */}
                 <div className="flex justify-center box-border h-[550px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
                     <h1 className="text-[40px] mt-[20px] font-semibold">Your Restrictions</h1>
+                    {/* Restrictions chips */}
+                    <Paper
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            flexWrap: 'wrap',
+                            listStyle: 'none',
+                            p: 0.5,
+                            m: 0,
+                        }}
+                        component="ul"
+                        >
+                        {restrictionChips}
+                    </Paper>
+
                 </div>
 
                 {/* Column 2 */}
@@ -145,7 +217,7 @@ function UpdateProfile({ user, isAuthenticated, restrictionsList, setRestriction
                         </button>
                     </div>
 
-                    {/* Specifications form */}
+                    {/* Specifications form (TO BE COMPLETED) */}
 
                 </div>
 

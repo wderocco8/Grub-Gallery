@@ -36,9 +36,7 @@ router.post("/createUser", async (req, res) => {
 router.get("/getRestrictions", async (req, res) => {
   try {
     const userId = req.query.user_id // Use req.query to get parameters from the query string
-    console.log("UserId is WTFFFF:", userId)
     const restrictions = await UserModel.findOne({ "user_id": userId }, { "dietary_restrict": 1, "_id": 0 })
-    console.log("Restrictions:", JSON.stringify(restrictions, null, 2))
     res.status(200).json(restrictions)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -74,7 +72,8 @@ router.put("/addRestriction", async (req, res) => {
 
 // endpoint to remove dietary restriction from user
 router.delete("/removeRestriction", async (req, res) => {
-  const body = req.body
+  const body = req.query
+
   try {
     const result = await UserModel.updateOne(
       { "user_id": body.user_id },
