@@ -7,11 +7,6 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
 import Chip from '@mui/material/Chip'
-import Paper from '@mui/material/Paper'
-
-const ListItem = styled('li')(({ theme }) => ({
-    margin: theme.spacing(0.5),
-}))
 
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
@@ -28,12 +23,12 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
             // ensure that values is a non-empty array
             if (Array.isArray(values) && values.length > 0) {
             return values.map((value, index) => (
-                <ListItem key={key + value}>
-                    <Chip
-                        label={`${key} : ${value}`}
-                        onDelete={() => removeRestriction(key, value)}
-                    />
-                </ListItem>
+                <Chip
+                    key={key + value}
+                    label={`${key} : ${value}`}
+                    onDelete={() => removeRestriction(key, value)}
+                    style={{ backgroundColor: '#E1E1E1' }}
+                />
             ))
             
             } else {
@@ -169,22 +164,12 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
 
 
                 {/* Column 1 */}
-                <div className="flex flex-col box-border h-[550px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
+                <div className="flex flex-col items-center gap-[20px] box-border h-[550px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
                     <h1 className="text-[40px] mt-[20px] font-semibold">Your Restrictions</h1>
                     {/* Restrictions chips */}
-                    <Paper
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            flexWrap: 'wrap',
-                            listStyle: 'none',
-                            p: 0.5,
-                            m: 0,
-                        }}
-                        component="ul"
-                        >
+                    <div className='relative z-10 flex justify-center flex-wrap gap-[5px]' >
                         {restrictionChips}
-                    </Paper>
+                    </div>
 
                 </div>
 
