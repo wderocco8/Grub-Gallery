@@ -17,11 +17,19 @@ router.post("/meals", async (req, res) => {
     const numberOfRecipes = 100
     // initialization for spoonacular api call
     const param = req.body.searchString
+    // object containing all restrictions for the user
+    const restrictions = req.body.dietary_restrict
+    // // array of all restrictions that can be IGNORED
+    // const ignoreRestrict = req.body.ignoreRestrict
+
     let config = {
       method: 'get',
       url: `https://api.spoonacular.com/recipes/complexSearch?query=${param}&number=${numberOfRecipes}&apiKey=${spoonacular_key}`,
       headers: { }
     }
+
+    // iterate over all dietary restrictions and selectively add them to the `url`
+
 
     // call spoonacular api
     try {

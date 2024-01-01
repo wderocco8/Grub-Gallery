@@ -5,12 +5,8 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
-import { styled } from '@mui/material/styles'
 import Chip from '@mui/material/Chip'
-
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
-
-
 
 function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions }) {
     // restrictionChips : array of chips for each restriction (updated w/ `restricitons`)
@@ -77,6 +73,18 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
                 {key}
             </MenuItem>
         )))
+        // TO BE COMPLETED : method for settng exclusionValues that only are not already covered (slightly broken code)
+        // setExclusionValuesMap(exclusionMap[exclusionKey]?.map((key) => {
+        //     if (!restrictions[exclusionKey].includes(key)) {
+        //         return (
+        //             <MenuItem key={key} value={key}>
+        //                 {key}
+        //             </MenuItem>
+        //         )
+        //     } else {
+        //         return null
+        //     }
+        // }))
     }
     // update `exclusionValue` onClick
     const handleExclusionValueChange = (event) => {
@@ -164,10 +172,10 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
 
 
                 {/* Column 1 */}
-                <div className="flex flex-col items-center gap-[20px] box-border h-[550px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
+                <div className="flex flex-col items-center gap-[20px] box-border overflow-auto min-h-[400px] max-h-[401px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
                     <h1 className="text-[40px] mt-[20px] font-semibold">Your Restrictions</h1>
                     {/* Restrictions chips */}
-                    <div className='relative z-10 flex justify-center flex-wrap gap-[5px]' >
+                    <div className='relative z-10 flex justify-center flex-wrap gap-[5px] mb-[20px]' >
                         {restrictionChips}
                     </div>
 
