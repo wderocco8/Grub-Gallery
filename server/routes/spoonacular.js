@@ -17,11 +17,32 @@ router.post("/meals", async (req, res) => {
     const numberOfRecipes = 100
     // initialization for spoonacular api call
     const param = req.body.searchString
+    // object containing all restrictions for the user
+    const restrictions = req.body.dietary_restrict
+    // // array of all restrictions that can be IGNORED
+    // const ignoreRestrict = req.body.ignoreRestrict
+
     let config = {
       method: 'get',
       url: `https://api.spoonacular.com/recipes/complexSearch?query=${param}&number=${numberOfRecipes}&apiKey=${spoonacular_key}`,
       headers: { }
     }
+
+    // iterate over all dietary restrictions and selectively add them to the `url`
+    Object.entries(restrictions).forEach( ([key, values]) => {
+      // only update `url` if > 0 values for a given exclusion
+      if (values.length > 0) {
+        // create additional search string parameters
+        let restrictString = `${key}=`
+        for (let i = 0; i < values.length; i++) {
+          // conditionally format restrictString (no leading space for first entry)
+          restrictString += `${i > 0 ? ' ' : ''}${values[i]}`
+        }
+        // update confix
+        config.url += `&${restrictString}`
+      }
+    })
+
 
     // call spoonacular api
     try {
@@ -29,7 +50,7 @@ router.post("/meals", async (req, res) => {
 
       // Turns the data from JSON (defualt) to string
       meals = JSON.stringify(response.data)
-      console.log("meals from search results: " + meals)
+      // console.log("meals from search results: " + meals)
 
       // Sends back the "OK" status and meals in JSON and ends request
       res.status(200).json(meals)
@@ -50,6 +71,8 @@ router.post("/meals", async (req, res) => {
 router.post("/browse", async (req, res) => {
   try {
     const numberOfRecipes = 100
+    // object containing all restrictions for the user
+    const restrictions = req.body.dietary_restrict
     // initialization for spoonacular api call
     // const param = req.body.searchString // unused input from frontend?
     let config = {
@@ -58,11 +81,26 @@ router.post("/browse", async (req, res) => {
       headers: { }
     }
 
+    // iterate over all dietary restrictions and selectively add them to the `url`
+    Object.entries(restrictions).forEach( ([key, values]) => {
+      // only update `url` if > 0 values for a given exclusion
+      if (values.length > 0) {
+        // create additional search string parameters
+        let restrictString = `${key}=`
+        for (let i = 0; i < values.length; i++) {
+          // conditionally format restrictString (no leading space for first entry)
+          restrictString += `${i > 0 ? ' ' : ''}${values[i]}`
+        }
+        // update confix
+        config.url += `&${restrictString}`
+      }
+    })
+
     // call spoonacular api
     try {
       const response = await axios.request(config)
       meals = JSON.stringify(response.data)
-      console.log(meals)
+      // console.log(meals)
       res.status(200).json(meals)
     }
     catch (error) {

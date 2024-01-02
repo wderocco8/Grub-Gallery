@@ -9,14 +9,17 @@ import Axios from "axios"
 import { useNavigate } from 'react-router-dom'
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
-function Home({ setBrowseMealsList }) {
+function Home({ restrictions, setBrowseMealsList }) {
   const navigate = useNavigate()
 
   // browseMeals : Perform the API request to find meals 
   const browseMeals = () => {
+    const body = {
+      dietary_restrict: restrictions
+    }
     // Once data is fetched, navigate to the "APIDataPage"
     try {
-      Axios.post(`${BACKEND_API_DOMAIN}/search/browse`)
+      Axios.post(`${BACKEND_API_DOMAIN}/search/browse`, body)
         .then(response => {
           const apiData = JSON.parse(response.data)
           // Pass the data as state to the "APIDataPage"

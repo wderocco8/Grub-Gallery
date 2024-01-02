@@ -11,6 +11,7 @@ import unFavorite from '../assets/removeFavorite.png'
 function DisplayResults(props) {
   // navigate : redirect to other pages (react-router-dom function)
   const navigate = useNavigate()
+  console.log("favList", props.favoritesList)
 
   // Function to call listFavorites with the required parameters
   const callListFavorites = () => {
