@@ -19,7 +19,8 @@ router.get("/getUsers", async (req, res) => {
 // Endpoint for creating a user. Will not create one if the user email already exists. .post is for posting new data
 router.post("/createUser", async (req, res) => {
   const user = req.body
-  const existUsername = await UserModel.findOne({ email: user.email })
+  console.log(user)
+  const existUsername = await UserModel.findOne({ user_id: user.user_id })
   if (existUsername) {
     console.log("username exists")
   }
@@ -34,8 +35,8 @@ router.post("/createUser", async (req, res) => {
 // endpoint to retrieve all of user's dietary restrictions
 router.get("/getRestrictions", async (req, res) => {
   try {
-    const user = req.body
-    const restrictions = await UserModel.find({ "email": user.email }, { "dietary_restrict": 1, "_id": 0 })
+    const userId = req.query.user_id // Use req.query to get parameters from the query string
+    const restrictions = await UserModel.findOne({ "user_id": userId }, { "dietary_restrict": 1, "_id": 0 })
     res.status(200).json(restrictions)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -44,23 +45,41 @@ router.get("/getRestrictions", async (req, res) => {
 
 // endpoint to add dietary restriction to user
 router.put("/addRestriction", async (req, res) => {
-  const user = req.body
-  const result = await UserModel.findOneAndUpdate(
-    { email: user.email },
-    { $push: { dietary_restrict: "gluten free" } },
-  )
-  res.send(result) //is this needed? 
+  try {
+    const body = req.body;
+  
+    const result = await UserModel.findOneAndUpdate(
+      { user_id: body.user_id },
+      { 
+        $addToSet: { 
+          [`dietary_restrict.${body.restriction}`]: body.value // add value of restriction to list (use brackets to dynamically render the name)
+        } 
+      }, 
+      { new: true } // Return the updated document
+    )
+  
+    if (result) {
+      res.json(result)
+    } else {
+      // Handle the case where the user is not found
+      res.status(404).json({ error: "User not found. Error adding restriction." })
+    }  
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
 })
+
 
 // endpoint to remove dietary restriction from user
 router.delete("/removeRestriction", async (req, res) => {
-  const user = req.body
+  const body = req.query
+
   try {
     const result = await UserModel.updateOne(
-      { "email": user.email },
+      { "user_id": body.user_id },
       {
         "$pull": {
-          "dietary_restrict": "gluten free"
+          [`dietary_restrict.${body.restriction}`]: body.value
         }
       })
     res.send(result)
@@ -73,7 +92,7 @@ router.delete("/removeRestriction", async (req, res) => {
 router.get("/getFavorites", async (req, res) => {
   try {
     const user_id = req.query.user_id
-    // console.log("user:", user)
+
     const user = await UserModel.findOne({ "user_id": user_id }, { "favorites": 1, "_id": 0 })
     
     if (!user) {

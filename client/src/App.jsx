@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import NavBar from './components/NavBar'
 import Home from './components/Home'
 import Login from './components/Login'
+import UpdateProfile from './components/UpdateProfile'
 import DisplayResults from './components/DisplayResults'
 import Favorites from './components/Favorites'
 import Schedule from './components/Schedule'
 import PrivacyPolicy from './components/PrivacyPolicy'
+import listRestrictions from './functions/listRestrictions'
 import './index.css'
 import Recipe from './components/Recipe'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { auth, handleSignOut } from "./Firebase"
+import { auth } from "./Firebase"
 
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
   const [browseMealsList, setBrowseMealsList] = useState([])
   const [recipe, setRecipe] = useState({})
   const [favoritesList, setFavoritesList] = useState([])
+  const [restrictions, setRestrictions] = useState({})
+  const [ignoreRestrictions, setIgnoreRestrictions] = useState([])
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   // use Firebase auth to detect if user is logged in
   const user = auth.currentUser
@@ -55,19 +59,24 @@ function App() {
     // check localStorage cache to see if `favorite` has been saved
     const localStorageFavorites = localStorage.getItem('favoritesList')
     if (localStorageFavorites) {
-      // update `browseMealsList` state array
+      // update `favoritesList` state array
       setFavoritesList(JSON.parse(localStorageFavorites))
     }
-  }, [])
+    
+    // check mongoDB cluster for dietary restrictions on page refresh
+    listRestrictions(user, isAuthenticated, setRestrictions)
+    
+  }, [isAuthenticated])
 
   return (
     <Router>
       {/* Will change searchMealsList depending on the search. Not a web-page so will be outside of <Routes> */}
-      <NavBar setSearchMealsList={setSearchMealsList} user={user} isAuthenticated={isAuthenticated} />
+      <NavBar restrictions={restrictions} setSearchMealsList={setSearchMealsList} user={user} isAuthenticated={isAuthenticated} />
       <Routes>
-        <Route path='/' element={<Home setBrowseMealsList={setBrowseMealsList} />} />
+        <Route path='/' element={<Home restrictions={restrictions} setBrowseMealsList={setBrowseMealsList} />} />
         {/* Sets the route pathnames to X, to be used later when trying to route Y to the X's element. So X is used as a pathname to route to X's element */}
         <Route path='/login' element={<Login isAuthenticated={isAuthenticated} />} />
+        <Route path='/update-profile' element={<UpdateProfile user={user} isAuthenticated={isAuthenticated} restrictions={restrictions} setRestrictions={setRestrictions} />} />
         <Route path='/browse/display-results' element={<DisplayResults user={user} mealsList={browseMealsList} setRecipe={setRecipe} isAuthenticated={isAuthenticated} favoritesList={favoritesList} setFavoritesList={setFavoritesList}/>} />
         <Route path='/search/display-results' element={<DisplayResults user={user} mealsList={searchMealsList} setRecipe={setRecipe} isAuthenticated={isAuthenticated} favoritesList={favoritesList} setFavoritesList={setFavoritesList}/>} />
         <Route path='/favorites' element={<Favorites user={user} favoritesList={favoritesList} setFavoritesList={setFavoritesList} isAuthenticated={isAuthenticated} setRecipe={setRecipe} />} />
