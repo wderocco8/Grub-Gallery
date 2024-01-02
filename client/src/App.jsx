@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
 import NavBar from './components/NavBar'
 import Home from './components/Home'
 import Login from './components/Login'
@@ -22,6 +21,7 @@ function App() {
   const [recipe, setRecipe] = useState({})
   const [favoritesList, setFavoritesList] = useState([])
   const [restrictions, setRestrictions] = useState({})
+  const [ignoreRestrictions, setIgnoreRestrictions] = useState([])
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   // use Firebase auth to detect if user is logged in
   const user = auth.currentUser
@@ -71,9 +71,9 @@ function App() {
   return (
     <Router>
       {/* Will change searchMealsList depending on the search. Not a web-page so will be outside of <Routes> */}
-      <NavBar setSearchMealsList={setSearchMealsList} user={user} isAuthenticated={isAuthenticated} />
+      <NavBar restrictions={restrictions} setSearchMealsList={setSearchMealsList} user={user} isAuthenticated={isAuthenticated} />
       <Routes>
-        <Route path='/' element={<Home setBrowseMealsList={setBrowseMealsList} />} />
+        <Route path='/' element={<Home restrictions={restrictions} setBrowseMealsList={setBrowseMealsList} />} />
         {/* Sets the route pathnames to X, to be used later when trying to route Y to the X's element. So X is used as a pathname to route to X's element */}
         <Route path='/login' element={<Login isAuthenticated={isAuthenticated} />} />
         <Route path='/update-profile' element={<UpdateProfile user={user} isAuthenticated={isAuthenticated} restrictions={restrictions} setRestrictions={setRestrictions} />} />

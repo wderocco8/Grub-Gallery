@@ -12,8 +12,8 @@ import '../index.css'
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 
-function NavBar({ setSearchMealsList, user, isAuthenticated }) {
-
+function NavBar({ restrictions, setSearchMealsList, user, isAuthenticated }) {
+    
     // navigate : used to redirect user to other urls...
     const navigate = useNavigate()
     const ref = useRef(null);
@@ -39,7 +39,8 @@ function NavBar({ setSearchMealsList, user, isAuthenticated }) {
     function search() {
         // Body init here, will be passed into the API call for searching meals
         const body = {
-            searchString
+            searchString,
+            dietary_restrict: restrictions
         }
         try {
             Axios.post(`${BACKEND_API_DOMAIN}/search/meals`, body).then((response) => {
