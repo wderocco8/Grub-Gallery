@@ -101,7 +101,7 @@ function Login({ isAuthenticated }) {
                                 <p className="text-[20px]">Login below to start utilizing GrubGallery’s advanced features (e.g. Google Calendar, personalized meal suggestions...)</p>
                             </div>
 
-                            <button className="google-btn mb-4 md:mb-0 ml-auto mr-auto" onClick={handleSignIn}>
+                            <button className="google-btn mb-4 md:mb-0 w-[250px] ml-auto mr-auto" onClick={handleSignIn}>
                                 Sign in with Google
                             </button>
                         </div>
