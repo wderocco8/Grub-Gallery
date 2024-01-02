@@ -12,8 +12,12 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
     // restrictionChips : array of chips for each restriction (updated w/ `restricitons`)
     const [restrictionChips, setRestrictionChips] = useState([])
 
+    // Mapping exclusionMap keys to an array of MenuItem objects
+    const [exclusionMenuItems, setExclusionMenuItems] = useState([])
+
     // update `restrictionChips` each time `restrictions` changes
     useEffect(() => {
+        // set restriciton Chips
         setRestrictionChips(Object.keys(restrictions).flatMap((key) => {
             const values = restrictions[key]
             // ensure that values is a non-empty array
@@ -32,6 +36,21 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
             }
         }
         ))
+
+        // set menu items for exclusions
+        setExclusionMenuItems(Object.keys(exclusionMap).map((key) => {
+            // maxReadyTime exception (can only have 1)
+            if (isAuthenticated && !(key == "maxReadyTime" && restrictions.maxReadyTime.length > 0)) {
+                return (
+                    <MenuItem key={key} value={key}>
+                        {key}
+                    </MenuItem>
+                )
+            } else {
+                return null
+            }
+        }))
+
     }, [restrictions])
 
     // exclusion : used to keep track of the specific `exclusion` the user is targeting in the form
@@ -54,13 +73,6 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
         "excludeCuisine" : ['African', 'Asian', 'American', 'British', 'Cajun', 'Caribbean', 'Chinese', 'Eastern European', 'European', 'French', 'German', 'Greek', 'Indian', 'Irish', 'Italian', 'Japanese', 'Jewish', 'Korean', 'Latin American', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Nordic', 'Southern', 'Spanish', 'Thai', 'Vietnamese'],
         "maxReadyTime" : [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200]        // values in minutes
     }
-
-    // Mapping exclusionMap keys to an array of MenuItem objects
-    const exclusionMenuItems = Object.keys(exclusionMap).map((key) => (
-        <MenuItem key={key} value={key}>
-            {key}
-        </MenuItem>
-    ))
 
     
     // update `exclusion` onClick
