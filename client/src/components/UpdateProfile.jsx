@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import listRestrictions from '../functions/listRestrictions'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
@@ -179,69 +180,78 @@ function UpdateProfile({ user, isAuthenticated, restrictions, setRestrictions })
     return (
         // center entire div on screen
         <div className='flex items-center h-screen'>
+            {isAuthenticated ? 
+                <div className="flex justify-center items-center gap-[150px]">
 
-            <div className="flex justify-center items-center gap-[150px]">
 
+                    {/* Column 1 */}
+                    <div className="flex flex-col items-center gap-[20px] box-border overflow-auto min-h-[400px] max-h-[401px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
+                        <h1 className="text-[40px] mt-[20px] font-semibold">Your Restrictions</h1>
+                        {/* Restrictions chips */}
+                        <div className='relative z-10 flex justify-center flex-wrap gap-[5px] mb-[20px]' >
+                            {restrictionChips}
+                        </div>
 
-                {/* Column 1 */}
-                <div className="flex flex-col items-center gap-[20px] box-border overflow-auto min-h-[400px] max-h-[401px] w-[420px] min-w-[400px] ml-[50px] rounded-3xl bg-[#B28370] text-white boxShadow">
-                    <h1 className="text-[40px] mt-[20px] font-semibold">Your Restrictions</h1>
-                    {/* Restrictions chips */}
-                    <div className='relative z-10 flex justify-center flex-wrap gap-[5px] mb-[20px]' >
-                        {restrictionChips}
+                    </div>
+
+                    {/* Column 2 */}
+                    <div className='flex flex-col gap-[30px] items-left'>
+                        {/* Exclusions form */}
+                        <h1 className="text-[30px] mt-[20px] font-semibold">Exlusions:</h1>
+                        <div className='flex items-center'>
+                            <FormControl sx={{ m: 1, minWidth: 200 }}>
+                                <InputLabel id="select-exclusion-key">exclusion</InputLabel>
+                                <Select
+                                    labelId="select-exclusion-key-label"
+                                    id="select-exclusion-key"
+                                    value={exclusion}
+                                    onChange={handleExclusionChange}
+                                    autoWidth
+                                    label="exclusion"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {exclusionMenuItems}
+                                </Select>
+                            </FormControl>
+                            
+                            <FormControl sx={{ m: 1, minWidth: 200 }}>
+                                <InputLabel id="select-exclusion-value">selections</InputLabel>
+                                <Select
+                                    labelId="select-exclusion-value-label"
+                                    id="select-exclusion-value"
+                                    value={exclusionValue}
+                                    onChange={handleExclusionValueChange}
+                                    autoWidth
+                                    label="exclusionValue"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {exclusionValuesMap}
+                                </Select>
+                            </FormControl>
+
+                            <button onClick={() => addRestriction(true)} className="bg-gray-700 hover:bg-gray-900 text-white px-5 h-[55px] rounded">
+                                Add Exclusion
+                            </button>
+                        </div>
+
+                        {/* Specifications form (TO BE COMPLETED) */}
+
                     </div>
 
                 </div>
-
-                {/* Column 2 */}
-                <div className='flex flex-col gap-[30px] items-left'>
-                    {/* Exclusions form */}
-                    <h1 className="text-[30px] mt-[20px] font-semibold">Exlusions:</h1>
-                    <div className='flex items-center'>
-                        <FormControl sx={{ m: 1, minWidth: 200 }}>
-                            <InputLabel id="select-exclusion-key">exclusion</InputLabel>
-                            <Select
-                                labelId="select-exclusion-key-label"
-                                id="select-exclusion-key"
-                                value={exclusion}
-                                onChange={handleExclusionChange}
-                                autoWidth
-                                label="exclusion"
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {exclusionMenuItems}
-                            </Select>
-                        </FormControl>
-                        
-                        <FormControl sx={{ m: 1, minWidth: 200 }}>
-                            <InputLabel id="select-exclusion-value">selections</InputLabel>
-                            <Select
-                                labelId="select-exclusion-value-label"
-                                id="select-exclusion-value"
-                                value={exclusionValue}
-                                onChange={handleExclusionValueChange}
-                                autoWidth
-                                label="exclusionValue"
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {exclusionValuesMap}
-                            </Select>
-                        </FormControl>
-
-                        <button onClick={() => addRestriction(true)} className="bg-gray-700 hover:bg-gray-900 text-white px-5 h-[55px] rounded">
-                            Add Exclusion
-                        </button>
-                    </div>
-
-                    {/* Specifications form (TO BE COMPLETED) */}
-
+                : 
+                <div className='flex flex-col items-center mt-[200px] mb-auto ml-auto mr-auto'>
+                    <h1 className="text-[40px] mt-[20px] font-semibold">Please login to edit your profile!</h1>
+                    <Link to={'/login'} className="flex items-center justify-center bg-gray-700 hover:bg-gray-900 text-white h-[40px] w-[100px] rounded">
+                        Login
+                    </Link>
                 </div>
+            }
 
-            </div>
         </div>
 
     )
