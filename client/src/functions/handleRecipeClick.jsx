@@ -1,6 +1,6 @@
 import Axios from "axios"
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
-import defaultImage from '../assets/defaultRecipe.gif'
+import defaultImage from '../assets/defaultRecipe.png'
 
 // handleRecipeClick : calls spoonacular api from backend `/search/recipe` endpoint and updates `recipe` object
 const handleRecipeClick = async (id, setRecipe, navigate) => {

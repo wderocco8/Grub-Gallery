@@ -7,6 +7,7 @@ import removeFavorite from "../functions/removeFavorite"
 import listFavorites from "../functions/listFavorites"
 import favorite from '../assets/addFavorite.png'
 import unFavorite from '../assets/removeFavorite.png'
+import defaultImage from '../assets/defaultRecipe.png'
 
 function DisplayResults(props) {
   // navigate : redirect to other pages (react-router-dom function)
@@ -44,7 +45,11 @@ function DisplayResults(props) {
               }
 
             <Link to={"/recipe"} onClick={() => handleRecipeClick(element.id, props.setRecipe, navigate)}>
-              <img className="recipeImage" src={element.image} alt={element.title} />
+              {element.image ?
+                <img className="recipeImage" src={element.image} alt={element.title} />
+                :
+                <img className="recipeImage" src={defaultImage} alt={element.title} />
+              }
             </Link>
 
             <h4>{element.title}</h4>
@@ -71,10 +76,14 @@ function DisplayResults(props) {
 const Card = styled.div`
   min-height: 20rem;
   border-radius: 2rem;
-  overflow: hidden;
+  // overflow: hidden;
   .recipeImage {
     border-radius: 2rem;
+    box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+    z-index: 10;
 
+    height: 60%;
+    width: 100%;
     max-height: 100%; /* Ensure the image doesn't exceed the container height */
 
     &:hover {
