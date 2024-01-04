@@ -3,3 +3,6 @@
 
 # Ignore node_modules directory
 node_modules/
+
+# ignore index.js (prevent overwriting between main/development code
+server/index.js
