@@ -5,6 +5,7 @@ import handleRecipeClick from "../functions/handleRecipeClick"
 import removeFavorite from "../functions/removeFavorite"
 import listFavorites from "../functions/listFavorites"
 import x_mark from '../assets/x_mark.png'
+import defaultImage from '../assets/defaultRecipe.png'
 
 function Favorites({ user, favoritesList, setFavoritesList, isAuthenticated, setRecipe }) {
   const navigate = useNavigate()
@@ -24,7 +25,11 @@ function Favorites({ user, favoritesList, setFavoritesList, isAuthenticated, set
       <Card>
         <img className="favoriteIcon" src={x_mark} onClick={() => removeFavorite(user, element, callListFavorites)} />
         <Link to={"/recipe"} onClick={() => handleRecipeClick(element.recipe_id, setRecipe, navigate)}>
-          <img src={element.image} alt={element.title} />
+            {element.image ?
+              <img className="recipeImage" src={element.image} alt={element.title} />
+              :
+              <img className="recipeImage" src={defaultImage} alt={element.title} />
+            }
         </Link>
         {/* <button className="pl-14 pt-2" onClick={() => removeFavorite(user, element, callListFavorites)}>Remove from Favorites</button> */}
 
@@ -47,14 +52,18 @@ function Favorites({ user, favoritesList, setFavoritesList, isAuthenticated, set
 const Card = styled.div`
   min-height: 20rem;
   border-radius: 2rem;
-  overflow: hidden;
-  img {
+  // overflow: hidden;
+  .recipeImage {
     border-radius: 2rem;
+    box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+
+    height: 60%;
     width: 100%;
     max-height: 100%; /* Ensure the image doesn't exceed the container height */
 
     &:hover {
-      transform: scale(0.97);
+      transform: scale(0.98);
       filter: brightness(0.8)
     }
   }
@@ -63,6 +72,7 @@ const Card = styled.div`
     padding: 1rem;
     font-weight: 600;
   }
+
   .favoriteIcon {
     position: absolute;
     margin-top: -10px;
@@ -83,6 +93,7 @@ const Card = styled.div`
     }
   }
 `
+
 const Grid = styled.div`
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
