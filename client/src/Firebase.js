@@ -93,7 +93,9 @@ export const signInWithGoogle = () => {
 
 // function to sign out (with firebase authentication)
  export const handleSignOut = async () => {
-    try {
+   try {
+        // clear storage (avoids keeping user data...)
+        localStorage.clear()
         // IMPORTANT: if authenticated with google Calendar api --> sign out (prevents altering somebody else's google calendar)
         // console.log("auth",auth, gapi.auth2.GoogleAuth())
         if (gapi.auth2 && gapi.auth2.getAuthInstance()) {

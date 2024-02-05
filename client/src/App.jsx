@@ -15,7 +15,7 @@ import { auth } from "./Firebase"
 
 function App() {
 
-  // assign state variables (keep track of meals lists, favorites lists, recipe, and user info)
+  // assign state variables (keep track of meals lists, favorites lists, recipe, restrictions and user info)
   const [searchMealsList, setSearchMealsList] = useState([])
   const [browseMealsList, setBrowseMealsList] = useState([])
   const [recipe, setRecipe] = useState({})
@@ -23,6 +23,7 @@ function App() {
   const [restrictions, setRestrictions] = useState({})
   const [ignoreRestrictions, setIgnoreRestrictions] = useState([])
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  
   // use Firebase auth to detect if user is logged in
   const user = auth.currentUser
 
