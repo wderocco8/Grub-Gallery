@@ -6,13 +6,7 @@ export const addEventToCalendar = async (eventDetails) => {
     try {
         // reauthenticate with google (ensures gapi is loaded on page refresh)
         const { gapi } = await signInWithGoogle();
-        
-        // Ensure that gapi.client is available and wait if necessary
-        while (!gapi.client) {
-            await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 100 milliseconds
-        }
 
-        console.log("calling gapi")
         // Use the gapi.client.calendar object to add an event
         const response = await gapi.client.calendar.events.insert({
         'calendarId': 'primary', // Use 'primary' for the user's default calendar
