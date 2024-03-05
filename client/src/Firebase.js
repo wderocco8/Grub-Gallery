@@ -57,28 +57,27 @@ export const signInWithGoogle = () => {
   
         // Ensure the gapi.client is initialized
         await gapi.load('client:auth2', async () => {
+          // CALLBACK step 1: initialize client
           await gapi.client.init({
             apiKey: API_KEY,
             clientId: CLIENT_ID,
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
             scope: scope,
           });
-  
           
-        //   // Now, get the token after initialization is complete
-        //   const accessToken = gapi.auth.getToken().accessToken
-
-          // Set the access token for authorization
+          // CALLBACK step 2: Set the access token for authorization
           if (accessToken) {
             gapi.auth.setToken({
               access_token: accessToken,
             });
   
           }
+
+          console.log("finished signing in")
+          
+          // CALLBACK step 3: Resolve with gapi object
+          resolve({ result: result.user, gapi })
         });
-        console.log("finished sign in...")
-        // Resolve with gapi object
-        resolve({ result: result.user, gapi })
       } catch (error) {
         console.log("Error authenticating with Google:", error);
         reject(error);
@@ -86,11 +85,6 @@ export const signInWithGoogle = () => {
     });
   };
   
-
-// // export gapi (to be used in googleCalendar)
-// export { gapi }
-
-
 // function to sign out (with firebase authentication)
  export const handleSignOut = async () => {
    try {
