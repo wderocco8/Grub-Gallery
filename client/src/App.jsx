@@ -82,7 +82,7 @@ function App() {
         <Route path='/update-profile' element={<UpdateProfile user={user} isAuthenticated={isAuthenticated} restrictions={restrictions} setRestrictions={setRestrictions} />} />
         <Route path='/browse/display-results' element={<DisplayResults user={user} mealsList={browseMealsList} setRecipe={setRecipe} isAuthenticated={isAuthenticated} favoritesList={favoritesList} setFavoritesList={setFavoritesList} isLoadingMeals={isLoadingMeals} isLoadingRecipe={isLoadingRecipe} setIsLoadingRecipe={setIsLoadingRecipe} />} />
         <Route path='/search/display-results' element={<DisplayResults user={user} mealsList={searchMealsList} setRecipe={setRecipe} isAuthenticated={isAuthenticated} favoritesList={favoritesList} setFavoritesList={setFavoritesList} isLoadingMeals={isLoadingMeals} isLoadingRecipe={isLoadingRecipe} setIsLoadingRecipe={setIsLoadingRecipe} />} />
-        <Route path='/favorites' element={<Favorites user={user} favoritesList={favoritesList} setFavoritesList={setFavoritesList} isAuthenticated={isAuthenticated} setRecipe={setRecipe} />} />
+        <Route path='/favorites' element={<Favorites user={user} favoritesList={favoritesList} setFavoritesList={setFavoritesList} isAuthenticated={isAuthenticated} setRecipe={setRecipe} isLoadingRecipe={isLoadingRecipe} setIsLoadingRecipe={setIsLoadingRecipe} />} />
         <Route path='/schedule' element={<Schedule />} />
         <Route path='/recipe' element={<Recipe recipe={recipe} isAuthenticated={isAuthenticated} user={user} favoritesList={favoritesList} setFavoritesList={setFavoritesList} />} />
         <Route path='/privacy-policy' element={<PrivacyPolicy />} />
