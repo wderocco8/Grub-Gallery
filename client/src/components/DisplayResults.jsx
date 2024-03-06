@@ -10,7 +10,7 @@ import unFavorite from '../assets/removeFavorite.png'
 import defaultImage from '../assets/defaultRecipe.png'
 import Loader from "./Loader"
 
-function DisplayResults({user, mealsList, setRecipe, isAuthenticated, favoritesList, setFavoritesList, isLoadingMeals}) {
+function DisplayResults({ user, mealsList, setRecipe, isAuthenticated, favoritesList, setFavoritesList, isLoadingMeals, isLoadingRecipe, setIsLoadingRecipe }) {
 
   // navigate : redirect to other pages (react-router-dom function)
   const navigate = useNavigate()
@@ -46,7 +46,7 @@ function DisplayResults({user, mealsList, setRecipe, isAuthenticated, favoritesL
                 )
               }
 
-            <Link to={"/recipe"} onClick={() => handleRecipeClick(element.id, setRecipe, navigate)}>
+            <Link onClick={() => handleRecipeClick(element.id, setRecipe, navigate, setIsLoadingRecipe)}>
               {element.image ?
                 <img className="recipeImage" src={element.image} alt={element.title} />
                 :
@@ -65,6 +65,7 @@ function DisplayResults({user, mealsList, setRecipe, isAuthenticated, favoritesL
 
 
   if (isLoadingMeals) return (<Loader/>)
+  if (isLoadingRecipe) return (<Loader/>)
 
   return (
     <div className="mt-20">
