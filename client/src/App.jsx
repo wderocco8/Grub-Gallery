@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import NavBar from './components/NavBar'
 import Home from './components/Home'
 import Login from './components/Login'
@@ -10,6 +9,7 @@ import PrivacyPolicy from './components/PrivacyPolicy'
 import listRestrictions from './functions/listRestrictions'
 import './index.css'
 import Recipe from './components/Recipe'
+import { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { auth } from "./Firebase"
 
@@ -21,8 +21,9 @@ function App() {
   const [recipe, setRecipe] = useState({})
   const [favoritesList, setFavoritesList] = useState([])
   const [restrictions, setRestrictions] = useState({})
-  const [ignoreRestrictions, setIgnoreRestrictions] = useState([])
+  // const [ignoreRestrictions, setIgnoreRestrictions] = useState([])
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isLoadingMeals, setIsLoadingMeals] = useState(false)
   
   // use Firebase auth to detect if user is logged in
   const user = auth.currentUser
@@ -72,9 +73,9 @@ function App() {
   return (
     <Router>
       {/* Will change searchMealsList depending on the search. Not a web-page so will be outside of <Routes> */}
-      <NavBar restrictions={restrictions} setSearchMealsList={setSearchMealsList} user={user} isAuthenticated={isAuthenticated} />
+      <NavBar restrictions={restrictions} setSearchMealsList={setSearchMealsList} user={user} isAuthenticated={isAuthenticated} setIsLoadingMeals={setIsLoadingMeals} />
       <Routes>
-        <Route path='/' element={<Home restrictions={restrictions} setBrowseMealsList={setBrowseMealsList} />} />
+        <Route path='/' element={<Home restrictions={restrictions} setBrowseMealsList={setBrowseMealsList} isLoadingMeals={isLoadingMeals} setIsLoadingMeals={setIsLoadingMeals} />} />
         {/* Sets the route pathnames to X, to be used later when trying to route Y to the X's element. So X is used as a pathname to route to X's element */}
         <Route path='/login' element={<Login isAuthenticated={isAuthenticated} />} />
         <Route path='/update-profile' element={<UpdateProfile user={user} isAuthenticated={isAuthenticated} restrictions={restrictions} setRestrictions={setRestrictions} />} />

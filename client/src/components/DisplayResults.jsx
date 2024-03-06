@@ -9,14 +9,15 @@ import favorite from '../assets/addFavorite.png'
 import unFavorite from '../assets/removeFavorite.png'
 import defaultImage from '../assets/defaultRecipe.png'
 
-function DisplayResults(props) {
+function DisplayResults({user, mealsList, setRecipe, isAuthenticated, favoritesList, setFavoritesList}) {
+
   // navigate : redirect to other pages (react-router-dom function)
   const navigate = useNavigate()
-  console.log("favList", props.favoritesList)
+  console.log("favList", favoritesList)
 
   // Function to call listFavorites with the required parameters
   const callListFavorites = () => {
-    listFavorites(props.user, props.isAuthenticated, props.setFavoritesList);
+    listFavorites(user, isAuthenticated, setFavoritesList);
   }
 
   // mealsList : state variable to map meals to elements rendered on the page
@@ -25,26 +26,26 @@ function DisplayResults(props) {
   // useEffect : re-initialize `favoritesId` and `favoritesIdSet` every time `favoritesList` is changed
   useEffect(() => {
     // obtain list of favorites
-    const favoritesId = props.favoritesList.map((element, index) => element.recipe_id)
+    const favoritesId = favoritesList.map((element, index) => element.recipe_id)
     // convert to `set` (to increase look-up time effeciency)
     const favoritesIdSet = new Set(favoritesId)
 
     // update mealsList
     setDisplayMealsList(
-      props.mealsList.map((element, index) => (
+      mealsList.map((element, index) => (
         //Sets a unique key based on the index for each div container
         <Grid key={element.id}>
           <Card>
-            {props.isAuthenticated && (
+            {isAuthenticated && (
               favoritesIdSet.has(String(element.id)) ?
-                <img className="favoriteIcon" src={unFavorite} onClick={() => removeFavorite(props.user, { recipe_id: element.id }, callListFavorites)} />
+                <img className="favoriteIcon" src={unFavorite} onClick={() => removeFavorite(user, { recipe_id: element.id }, callListFavorites)} />
                 :
 
-                <img className="favoriteIcon" src={favorite} onClick={() => addFavorite(props.user.uid, element, callListFavorites)} />
+                <img className="favoriteIcon" src={favorite} onClick={() => addFavorite(user.uid, element, callListFavorites)} />
                 )
               }
 
-            <Link to={"/recipe"} onClick={() => handleRecipeClick(element.id, props.setRecipe, navigate)}>
+            <Link to={"/recipe"} onClick={() => handleRecipeClick(element.id, setRecipe, navigate)}>
               {element.image ?
                 <img className="recipeImage" src={element.image} alt={element.title} />
                 :
@@ -59,7 +60,7 @@ function DisplayResults(props) {
       ))
     )
 
-    }, [props.favoritesList, props.mealsList, props.isAuthenticated])
+    }, [favoritesList, mealsList, isAuthenticated])
 
 
 

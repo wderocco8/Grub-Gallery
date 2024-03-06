@@ -5,11 +5,14 @@ import food4 from "../assets/food4.jpg"
 import food5 from "../assets/food5.jpg"
 import food6 from "../assets/food6.jpg"
 import privacy from "../assets/privacy.png"
+import Loader from "./Loader"
 import Axios from "axios"
 import { useNavigate } from 'react-router-dom'
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
-function Home({ restrictions, setBrowseMealsList }) {
+function Home({ restrictions, setBrowseMealsList, isLoadingMeals, setIsLoadingMeals }) {
+  
+  // navigate : used to route to different pages
   const navigate = useNavigate()
 
   // browseMeals : Perform the API request to find meals 
@@ -19,6 +22,9 @@ function Home({ restrictions, setBrowseMealsList }) {
     }
     // Once data is fetched, navigate to the "APIDataPage"
     try {
+      // set isLoadingMeals true while fetching
+      setIsLoadingMeals(true)
+
       Axios.post(`${BACKEND_API_DOMAIN}/search/browse`, body)
         .then(response => {
           const apiData = JSON.parse(response.data)
@@ -31,6 +37,8 @@ function Home({ restrictions, setBrowseMealsList }) {
           // update localStorage with `browseMealsList` (aka `results`)
           localStorage.setItem('browseMealsList', JSON.stringify(results))
 
+          // set isLoadingMeals false
+          setIsLoadingMeals(false)
           navigate('/browse/display-results')
         })
     } catch (error) {
@@ -43,10 +51,9 @@ function Home({ restrictions, setBrowseMealsList }) {
     navigate('privacy-policy')
   }
 
+  if (isLoadingMeals) return (<Loader/>)
   
   return (
-
-
     <div className="mt-[10%] ml-[40px] mr-[40px]">
   
         {/* creates outter grid for home, grids entries start from topleft to bottom right */}
