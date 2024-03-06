@@ -8,8 +8,9 @@ import listFavorites from "../functions/listFavorites"
 import favorite from '../assets/addFavorite.png'
 import unFavorite from '../assets/removeFavorite.png'
 import defaultImage from '../assets/defaultRecipe.png'
+import Loader from "./Loader"
 
-function DisplayResults({user, mealsList, setRecipe, isAuthenticated, favoritesList, setFavoritesList}) {
+function DisplayResults({user, mealsList, setRecipe, isAuthenticated, favoritesList, setFavoritesList, isLoadingMeals}) {
 
   // navigate : redirect to other pages (react-router-dom function)
   const navigate = useNavigate()
@@ -26,13 +27,13 @@ function DisplayResults({user, mealsList, setRecipe, isAuthenticated, favoritesL
   // useEffect : re-initialize `favoritesId` and `favoritesIdSet` every time `favoritesList` is changed
   useEffect(() => {
     // obtain list of favorites
-    const favoritesId = favoritesList.map((element, index) => element.recipe_id)
+    const favoritesId = favoritesList.map((element) => element.recipe_id)
     // convert to `set` (to increase look-up time effeciency)
     const favoritesIdSet = new Set(favoritesId)
 
     // update mealsList
     setDisplayMealsList(
-      mealsList.map((element, index) => (
+      mealsList.map((element) => (
         //Sets a unique key based on the index for each div container
         <Grid key={element.id}>
           <Card>
@@ -63,6 +64,7 @@ function DisplayResults({user, mealsList, setRecipe, isAuthenticated, favoritesL
     }, [favoritesList, mealsList, isAuthenticated])
 
 
+  if (isLoadingMeals) return (<Loader/>)
 
   return (
     <div className="mt-20">
@@ -126,14 +128,6 @@ grid-gap: 2rem;
 margin: 0 auto; /* Center the grid horizontally */
 max-width: 1200px; /* Set a maximum width for the grid */
 margin-top: 20px; /* Adjust the value as needed */
-`
-
-const PopularPicksHeader = styled.h1`
-margin-top: 40px;
-  font-size: 1.5rem; /* Adjust the font size as needed */
-  font-weight: bold;
-  text-align: left;
-  margin-left: 100px;
 `
 
 export default DisplayResults
