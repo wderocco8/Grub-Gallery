@@ -6,7 +6,6 @@ import removeFavorite from "../functions/removeFavorite"
 import listFavorites from "../functions/listFavorites"
 import favorite from '../assets/addFavorite.png'
 import unFavorite from '../assets/removeFavorite.png'
-
 // MUI datetime picker : https://mui.com/x/react-date-pickers/getting-started/
 import dayjs from 'dayjs';
 import 'dayjs/locale/en'; // Import the locale you want to use
@@ -21,9 +20,10 @@ dayjs.extend(localizedFormat)
 
 
 function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList }) {
-  const [activeTab, setActiveTab] = useState('instructions')
+    const [activeTab, setActiveTab] = useState('instructions')
 
-    console.log(recipe.image)
+    const [successVisible, setSuccessVisible] = useState(false)
+
     // selectedDateTime : tracks the start date and time for the user's event
     const [selectedDateTime, setSelectedDateTime] = useState(
       dayjs().startOf('day').add(12, 'hours')
@@ -41,7 +41,7 @@ function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList
     // useEffect : re-initialize `favoritesId` and `favoritesIdSet` every time `favoritesList` is changed
     useEffect(() => {
       // obtain list of favorites
-      const favoritesId = favoritesList.map((element, index) => element.recipe_id)
+      const favoritesId = favoritesList.map((element) => element.recipe_id)
       // convert to `set` (to increase look-up time effeciency)
       const favoritesIdSet = new Set(favoritesId)
 
@@ -61,8 +61,6 @@ function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList
 
     }, [favoritesList, isAuthenticated, recipe])
 
-
-
     // Google Calendar integration
     const handleAddEvent = async () => {
       try {
@@ -77,6 +75,15 @@ function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList
     
         await addEventToCalendar(eventDetails)
         console.log('Event added successfully!')
+
+        // Display success message
+        setSuccessVisible(true);
+
+        // Hide success message after 3 seconds
+        setTimeout(() => {
+          setSuccessVisible(false);
+        }, 5000);
+
       } catch (error) {
         console.error('Error adding event:', error)
       }
@@ -87,12 +94,11 @@ function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList
 
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DetailWrapper>
-          <div>
+          <div className="flex flex-col gap-3">
               <h2>{recipe.title}</h2>
               {displayImageIcon}
              
               {/* google calendar : conditionally render if user is signed in */}
-              <div className="flex flex-col gap-[5px] mt-[10px]">
                 {isAuthenticated && 
                   <>
                     <DateTimePicker
@@ -104,11 +110,26 @@ function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList
                     <button className="google-btn" onClick={handleAddEvent}>Add to Google Calendar</button> 
                   </>
                 }
-              </div>
+
+              {successVisible &&
+                <div id="success" className="flex items-center p-4 mb-4 border border-green-300 text-green-600 rounded-lg bg-green-50" role="alert">
+                  <svg className="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                  </svg>
+                  <span className="sr-only">Info</span>
+                  <div className="ms-3 text-sm font-medium">
+                    <span>
+                      <b>Success! </b>
+                      Added recipe to Google Calendar.
+                    </span>
+                  </div>
+                </div>
+              }
+
           </div>
           <Info>
           
-              <Button className={activeTab === 'instructions' ? 'active' : ''} onClick={() => setActiveTab("instructions")}>Instructions</Button> 
+              <Button classNameName={activeTab === 'instructions' ? 'active' : ''} onClick={() => setActiveTab("instructions")}>Instructions</Button> 
               <Button className={activeTab === 'ingredients' ? 'active' : ''} onClick={() => setActiveTab("ingredients")}>Ingredients</Button>
               {activeTab === 'instructions' && (
                               <div>
@@ -123,7 +144,6 @@ function Recipe({ recipe, isAuthenticated, user, favoritesList, setFavoritesList
                                   <li key={ingredient.id}>{ingredient.original}</li>
                               ))}</div>
               )}
-
           </Info>
       </DetailWrapper>
     </LocalizationProvider>
@@ -137,7 +157,7 @@ export default Recipe
 
 
 const DetailWrapper = styled.div`
-    margin-top: 10rem;
+    margin-top: 5rem;
     margin-bottom: 5rem;
     margin-left: 5rem;
     margin-right: 5rem;

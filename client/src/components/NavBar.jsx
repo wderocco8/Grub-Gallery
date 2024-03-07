@@ -12,13 +12,13 @@ import '../index.css'
 const BACKEND_API_DOMAIN = import.meta.env.VITE_BACKEND_API_DOMAIN
 
 
-function NavBar({ restrictions, setSearchMealsList, user, isAuthenticated }) {
+function NavBar({ restrictions, setSearchMealsList, user, isAuthenticated, setIsLoadingMeals }) {
     
     // navigate : used to redirect user to other urls...
     const navigate = useNavigate()
     const ref = useRef(null);
     useClickAway(ref, () => setOpen(false));
-
+    
     // create and maintain "searchString" within searchbar
     const [searchString, setSearchString] = useState("")
 
@@ -43,6 +43,9 @@ function NavBar({ restrictions, setSearchMealsList, user, isAuthenticated }) {
             dietary_restrict: restrictions
         }
         try {
+            // set meals to loading
+            setIsLoadingMeals(true)
+
             Axios.post(`${BACKEND_API_DOMAIN}/search/meals`, body).then((response) => {
                 // parse response data from JSON to a newly created javascript object, where the keys turn into attributes and the values turn into the value of those attributes
                 const data = JSON.parse(response.data)
@@ -55,7 +58,8 @@ function NavBar({ restrictions, setSearchMealsList, user, isAuthenticated }) {
 
                 // store `searchMealsList` (aka `results`) in local storage
                 localStorage.setItem('searchMealsList', JSON.stringify(results))
-
+                
+                setIsLoadingMeals(false)
                 // redirect to the `search/display-results` page
                 navigate('/search/display-results')
             })

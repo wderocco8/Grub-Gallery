@@ -6,8 +6,9 @@ import removeFavorite from "../functions/removeFavorite"
 import listFavorites from "../functions/listFavorites"
 import x_mark from '../assets/x_mark.png'
 import defaultImage from '../assets/defaultRecipe.png'
+import Loader from './Loader'
 
-function Favorites({ user, favoritesList, setFavoritesList, isAuthenticated, setRecipe }) {
+function Favorites({ user, favoritesList, setFavoritesList, isAuthenticated, setRecipe, isLoadingRecipe, setIsLoadingRecipe }) {
   const navigate = useNavigate()
 
   // Function to call listFavorites with the required parameters
@@ -20,11 +21,11 @@ function Favorites({ user, favoritesList, setFavoritesList, isAuthenticated, set
   }, [isAuthenticated])
 
 
-  const favoritesDisplayList = favoritesList.map((element, index) => (
+  const favoritesDisplayList = favoritesList.map((element) => (
     <Grid key={element.recipe_id}>
       <Card>
         <img className="favoriteIcon" src={x_mark} onClick={() => removeFavorite(user, element, callListFavorites)} />
-        <Link to={"/recipe"} onClick={() => handleRecipeClick(element.recipe_id, setRecipe, navigate)}>
+        <Link onClick={() => handleRecipeClick(element.recipe_id, setRecipe, navigate, setIsLoadingRecipe)}>
             {element.image ?
               <img className="recipeImage" src={element.image} alt={element.title} />
               :
@@ -37,6 +38,8 @@ function Favorites({ user, favoritesList, setFavoritesList, isAuthenticated, set
       </Card>
     </Grid>
   ))
+
+  if (isLoadingRecipe) return (<Loader/>)
 
   return (
     <div>
@@ -101,14 +104,6 @@ grid-gap: 2rem;
 margin: 0 auto; /* Center the grid horizontally */
 max-width: 1200px; /* Set a maximum width for the grid */
 margin-top: 20px; /* Adjust the value as needed */
-`
-
-const PopularPicksHeader = styled.h1`
-margin-top: 40px;
-  font-size: 1.5rem; /* Adjust the font size as needed */
-  font-weight: bold;
-  text-align: left;
-  margin-left: 100px;
 `
 
 export default Favorites
