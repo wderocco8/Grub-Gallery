@@ -8,7 +8,7 @@ async function removeFavorite(user, recipe, callListFavorites){
         recipe
       }
     })
-    .then((response) => {
+    .then(() => {
       // only call `listFavorites` if on `favorites` page
       if (callListFavorites) {
         callListFavorites()
