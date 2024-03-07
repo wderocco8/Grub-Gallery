@@ -106,12 +106,4 @@ max-width: 1200px; /* Set a maximum width for the grid */
 margin-top: 20px; /* Adjust the value as needed */
 `
 
-const PopularPicksHeader = styled.h1`
-margin-top: 40px;
-  font-size: 1.5rem; /* Adjust the font size as needed */
-  font-weight: bold;
-  text-align: left;
-  margin-left: 100px;
-`
-
 export default Favorites
