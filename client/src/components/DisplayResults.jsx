@@ -14,7 +14,6 @@ function DisplayResults({ user, mealsList, setRecipe, isAuthenticated, favorites
 
   // navigate : redirect to other pages (react-router-dom function)
   const navigate = useNavigate()
-  console.log("favList", favoritesList)
 
   // Function to call listFavorites with the required parameters
   const callListFavorites = () => {

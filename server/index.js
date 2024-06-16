@@ -1,9 +1,16 @@
 const express = require("express")
 const cors = require('cors')
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+
+// Load environment variables from .env file in development
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config()
+}
 
 // vercel : automatically injects environment variables at runtime
 const mongoUri = process.env.MONGODB_URI
+const port = process.env.PORT || 3000
 
 // initialize express application
 const app = express()
@@ -24,6 +31,12 @@ const spoonacularRoute = require("./routes/spoonacular.js")
 app.use("/users", userRoute)
 app.use("/search", spoonacularRoute)
 
+// Conditionally start the server only if not running in a serverless environment
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`)
+    })
+}
 
 // vercel : app.listen(...) is not necessary, but must export the app for serverless usage
 module.exports = app
