@@ -14,7 +14,6 @@ function DisplayResults({ user, mealsList, setRecipe, isAuthenticated, favorites
 
   // navigate : redirect to other pages (react-router-dom function)
   const navigate = useNavigate()
-  console.log("favList", favoritesList)
 
   // Function to call listFavorites with the required parameters
   const callListFavorites = () => {
@@ -68,9 +67,21 @@ function DisplayResults({ user, mealsList, setRecipe, isAuthenticated, favorites
   if (isLoadingRecipe) return (<Loader/>)
 
   return (
-    <div className="mt-20">
+    <div className="flex items-center justify-center mt-20">
       {/* Displays the newly mapped list, which is just a bunch of div containers of information for each element */}
-      <Grid>{displayMealsList}</Grid>
+      {
+        displayMealsList.length > 0
+        ?
+        <Grid>{displayMealsList}</Grid>
+        :
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-red-500 mb-4">Oops, that didn't work</h1>
+            <h4 className="text-lg">Try entering a different query, or edit some of your restrictions!</h4>
+          </div>
+        </div>
+
+      }
     </div>
   )
 }

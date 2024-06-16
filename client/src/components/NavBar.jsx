@@ -53,8 +53,13 @@ function NavBar({ restrictions, setSearchMealsList, user, isAuthenticated, setIs
                 // obtain array of results from api call. Results is an attribute of the newly created object
                 const results = data.results
 
+                console.log("backend results:", response, results)
+
                 // reassign searchMealsList
                 setSearchMealsList(results)
+
+                // reset search string
+                setSearchString("")
 
                 // store `searchMealsList` (aka `results`) in local storage
                 localStorage.setItem('searchMealsList', JSON.stringify(results))
@@ -98,6 +103,7 @@ function NavBar({ restrictions, setSearchMealsList, user, isAuthenticated, setIs
                         placeholder="What would you like to eat today?"
                         className="w-full p-4 rounded-full focus:outline-none"
                         name="searchbar"
+                        value={searchString}
                         onChange={handleChange}
                         onKeyDown={handleKeyDown}
                     />
