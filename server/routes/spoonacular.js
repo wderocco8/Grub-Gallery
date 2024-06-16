@@ -3,16 +3,14 @@ const express = require("express")
 const router = express.Router()
 const axios = require('axios');
 const cors = require('cors')
-
-
 router.use(express.json())
 router.use(cors())
-
 // obtain Spoonacular API key for environmental variables
 const spoonacular_key = process.env.SPOONACULAR_KEY
 
 // Endpoint for Calling the spoonacular api call for meals based on searchString from req.body
 router.post("/meals", async (req, res) => {
+  console.log("CALLING SPOONACULAR")
   try {
     const numberOfRecipes = 100
     // initialization for spoonacular api call
@@ -26,7 +24,7 @@ router.post("/meals", async (req, res) => {
       method: 'get',
       url: `https://api.spoonacular.com/recipes/complexSearch?query=${param}&number=${numberOfRecipes}&apiKey=${spoonacular_key}`,
       headers: { }
-    }
+      }
 
     // iterate over all dietary restrictions and selectively add them to the `url`
     Object.entries(restrictions).forEach( ([key, values]) => {
@@ -43,14 +41,13 @@ router.post("/meals", async (req, res) => {
       }
     })
 
-
     // call spoonacular api
     try {
       const response = await axios.request(config)
 
       // Turns the data from JSON (defualt) to string
       meals = JSON.stringify(response.data)
-      // console.log("meals from search results: " + meals)
+      console.log("meals from search results: " + meals)
 
       // Sends back the "OK" status and meals in JSON and ends request
       res.status(200).json(meals)
@@ -132,7 +129,7 @@ router.post("/recipe", async (req, res) => {
     try {
       const response = await axios.request(config)
       meals = JSON.stringify(response.data)
-      console.log(meals)
+      // console.log(meals)
       res.status(200).json(meals)
     }
     catch (error) {
